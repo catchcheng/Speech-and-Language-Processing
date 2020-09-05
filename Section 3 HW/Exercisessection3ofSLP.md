@@ -53,7 +53,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | \<s>  | 0 | 3 | 0 | 1 | 0 | 0 | 0  | 0   | 0 | 0 | 0 |
 | I     | 0 | 0 | 3 | 0 | 1 | 0 | 0  | 0   | 0 | 0 | 0 |
-| am    | 0 | 0 | 2 | 0 | 0 | 0 | 0  | 0   | 0 | 0 | 1 |
+| am    | 0 | 0 | 0 | 2 | 0 | 0 | 0  | 0   | 0 | 0 | 1 |
 | Sam   | 0 | 1 | 0 | 0 | 0 | 0 | 0  | 0   | 0 | 0 | 3 |
 | do    | 0 | 0 | 0 | 0 | 0 | 1 | 0  | 0   | 0 | 0 | 0 |
 | not   | 0 | 0 | 0 | 0 | 0 | 0 | 1  | 0   | 0 | 0 | 0 |
@@ -67,7 +67,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | \<s>  | 1 | 4 | 1 | 2 | 1 | 1 | 1  | 1   | 1 | 1 | 1 |
 | I     | 1 | 1 | 4 | 1 | 2 | 1 | 1  | 1   | 1 | 1 | 1 |
-| am    | 1 | 1 | 3 | 1 | 1 | 1 | 1  | 1   | 1 | 1 | 2 |
+| am    | 1 | 1 | 1 | 3 | 1 | 1 | 1  | 1   | 1 | 1 | 2 |
 | Sam   | 1 | 2 | 1 | 1 | 1 | 1 | 1  | 1   | 1 | 1 | 4 |
 | do    | 1 | 1 | 1 | 1 | 1 | 2 | 1  | 1   | 1 | 1 | 1 |
 | not   | 1 | 1 | 1 | 1 | 1 | 1 | 2  | 1   | 1 | 1 | 1 |
@@ -81,7 +81,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | \<s>  | 1/15 | 4/15 | 1/15 | 2/15 | 1/15 | 1/15 | 1/15  | 1/15   | 1/15 | 1/15 | 1/15 |
 | I     | 1/15 | 1/15 | 4/15 | 1/15 | 2/15 | 1/15 | 1/15  | 1/15   | 1/15 | 1/15 | 1/15 |
-| am    | 1/14 | 1/14 | 3/14 | 1/14 | 1/14 | 1/14 | 1/14  | 1/14   | 1/14 | 1/14 | 2/14 |
+| am    | 1/14 | 1/14 | 1/14 | 3/14 | 1/14 | 1/14 | 1/14  | 1/14   | 1/14 | 1/14 | 2/14 |
 | Sam   | 1/15 | 2/15 | 1/15 | 1/15 | 1/15 | 1/15 | 1/15  | 1/15   | 1/15 | 1/15 | 4/15 |
 | do    | 1/12 | 1/12 | 1/12 | 1/12 | 1/12 | 2/12 | 1/12  | 1/12   | 1/12 | 1/12 | 1/12 |
 | not   | 1/12 | 1/12 | 1/12 | 1/12 | 1/12 | 1/12 | 2/12  | 1/12   | 1/12 | 1/12 | 1/12 |
@@ -91,7 +91,7 @@
 | and   | 1/12 | 1/12 | 1/12 | 2/12 | 1/12 | 1/12 | 1/12  | 1/12   | 1/12 | 1/12 | 1/12 |
 | \</s> | 1/11 | 1/11 | 1/11 | 1/11 | 1/11 | 1/11 | 1/11  | 1/11   | 1/11 | 1/11 | 1/11 |
 
-    P(Sam | am) = 0.1333
+    P(Sam | am) = 3/14
 
 #### 3.5 Suppose we didn’t use the end-symbol </s>. Train an unsmoothed bigram grammar on the following training corpus without using the end-symbol </s>:
     <s> a b
@@ -112,9 +112,18 @@
 
 #### 3.6 Suppose we train a trigram language model with add-one smoothing on a given corpus. The corpus contains V word types. Express a formula for estimating P(w3|w1,w2), where w3 is a word which follows the bigram (w1,w2), in terms of various N-gram counts and V. Use the notation c(w1,w2,w3) to denote the number of times that trigram (w1,w2,w3) occurs in the corpus, and so on for bigrams and unigrams.
 
-    P*(w_3|w_1,w_2)
-    = P(w_3|w_2)*P(w_2|w_1)
+    w1w2w3
+    3-gram:
+    P(w_3|w_1,w_2)
+    = (c(w_1,w_2,w3)+1)/(c(w_2,w3)+v)
+
+    w1w2
+    2-gram:
+    P(w_3|w_1,w_2)
     = (c(w_2,w_3)+1)/(c(w_2)+v) * (c(w_1,w_2)+1)/(c(w_1)+v)
+
+    unigrams
+    (c(w1)+1)/(c(w1)+c(w2)+c(w3)+v) * (c(w2)+1)/(c(w1)+c(w2)+c(w3)+v) * (c(w3)+1)/(c(w1)+c(w2)+c(w3)+v)
 
 #### 3.7 We are given the following corpus, modified from the one in the chapter:
     <s> I am Sam </s>
@@ -125,8 +134,9 @@
 #### If we use linear interpolation smoothing between a maximum-likelihood bigram model and a maximum-likelihood unigram model with λ1 = 1/2 and λ2 = 1/2, what is P(Sam|am)? Include <s> and </s> in your counts just like any other token.
 
     P(Sam|am) = \lambda_1 * P(Sam|am) + \lambda_2 * P(Sam)
-              = 1/2 * 1 + 1/2 * 1
-              = 1
+              = 1/2 * 3/14 + 1/2 * (4+1)/(25+11)
+
+    % 有次序
 
 #### 3.8 Write a program to compute unsmoothed unigrams and bigrams.
 ```
