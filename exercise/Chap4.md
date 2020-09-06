@@ -55,16 +55,16 @@ prior: <br/>
 P(c=pos) = 0.4, P(c=neg) = 0.6<br/>
 P(c|'A good, good plot and great characters, but poor acting')∝P('A good, good plot and great characters, but poor acting'|c)*P(c) = P(good|c)*P(good|c)*P(great|c)*P(poor|c)*P(c)<br/><br/>
 multinomial naive Bayes<br/>
-|V| = 3, n_pos = 9, n_neg = 12<br/>
+|V| = 3, n_pos = 9, n_neg = 14<br/>
 P(good|c=pos) = (3+1)/(9+3) = 1/3<br/>
 P(great|c=pos) = (5+1)/(9+3) = 1/2<br/>
 P(poor|c=pos) = (1+1)/(9+3) = 1/6<br/>
 P(c=pos|'A good, good plot and great characters, but poor acting')∝ 1/3*1/3*1/2*1/6*0.4 = 0.0037<br/>
-P(good|c=neg) = (2+1)/(9+3) = 1/4<br/>
-P(great|c=pos) = (2+1)/(9+3) = 1/4<br/>
-P(poor|c=pos) = (10+1)/(9+3) = 11/12<br/>
-P(c=pos|'A good, good plot and great characters, but poor acting')∝ 1/4*1/4*1/4*11/12*0.6 = 0.00859<br/>
-so neg class<br/><br/>
+P(good|c=neg) = (2+1)/(14+3) = 3/17<br/>
+P(great|c=neg) = (2+1)/(14+3) = 3/17<br/>
+P(poor|c=neg) = (10+1)/(14+3) = 11/17<br/>
+P(c=pos|'A good, good plot and great characters, but poor acting')∝ 1/4*1/4*1/4*11/12*0.6 = 0.00213<br/>
+so pos class<br/><br/>
 binarized naive Bayes<br/>
 |V| = 3, n_pos = 4, n_neg = 6<br/>
 P(good|c=pos) = (1+1)/(4+3) = 2/7<br/>
