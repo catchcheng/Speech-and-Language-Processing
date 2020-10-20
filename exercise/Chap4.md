@@ -76,7 +76,7 @@ P(great|c=pos) = (1+1)/(6+3) = 2/9<br/>
 P(poor|c=pos) = (3+1)/(6+3) = 4/9<br/>
 P(c=pos|'A good, good plot and great characters, but poor acting')∝ 1/3*1/3*2/9*4/9*0.6 = 0.00658<br/>
 so neg class<br/>
-Two models agree.<br/>
+Two models disagree.<br/>
   
   
   
